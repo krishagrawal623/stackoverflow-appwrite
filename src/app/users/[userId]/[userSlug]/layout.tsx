@@ -6,6 +6,9 @@ import React from "react";
 import EditButton from "./EditButton";
 import Navbar from "./Navbar";
 import { IconClockFilled, IconUserFilled } from "@tabler/icons-react";
+import { unstable_noStore as noStore } from "next/cache";
+
+export const dynamic = "force-dynamic";
 
 const Layout = async ({
     children,
@@ -14,6 +17,7 @@ const Layout = async ({
     children: React.ReactNode;
     params: { userId: string; userSlug: string };
 }) => {
+    noStore();
     const user = await users.get<UserPrefs>(params.userId);
 
     return (

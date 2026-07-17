@@ -5,6 +5,8 @@ import VoteButtons from "@/components/VoteButtons";
 import Particles from "@/components/magicui/particles";
 import ShimmerButton from "@/components/magicui/shimmer-button";
 import { avatars } from "@/models/client/config";
+
+export const dynamic = "force-dynamic";
 import {
     answerCollection,
     db,
@@ -25,8 +27,10 @@ import React from "react";
 import DeleteQuestion from "./DeleteQuestion";
 import EditQuestion from "./EditQuestion";
 import { TracingBeam } from "@/components/ui/tracing-beam";
+import { unstable_noStore as noStore } from "next/cache";
 
 const Page = async ({ params }: { params: { quesId: string; quesName: string } }) => {
+    noStore();
     const [question, answers, upvotes, downvotes, comments] = await Promise.all([
         databases.getDocument(db, questionCollection, params.quesId),
         databases.listDocuments(db, answerCollection, [
@@ -168,18 +172,15 @@ const Page = async ({ params }: { params: { quesId: string; quesName: string } }
                     </div>
                     <div className="w-full overflow-auto">
                         <MarkdownPreview className="rounded-xl p-4" source={question.content} />
-                        <picture>
-                            <img
-                                src={
-                                    storage.getFilePreview(
-                                        questionAttachmentBucket,
-                                        question.attachmentId
-                                    ).href
-                                }
-                                alt={question.title}
-                                className="mt-3 rounded-lg"
-                            />
-                        </picture>
+                        {question.attachmentId && (
+                            <picture>
+                                <img
+                                    src={`/api/image?fileId=${question.attachmentId}`}
+                                    alt={question.title}
+                                    className="mt-3 rounded-lg"
+                                />
+                            </picture>
+                        )}
                         <div className="mt-3 flex flex-wrap items-center gap-3 text-sm">
                             {question.tags.map((tag: string) => (
                                 <Link

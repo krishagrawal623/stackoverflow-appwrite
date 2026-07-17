@@ -6,6 +6,9 @@ import slugify from "@/utils/slugify";
 import Link from "next/link";
 import { Query } from "node-appwrite";
 import React from "react";
+import { unstable_noStore as noStore } from "next/cache";
+
+export const dynamic = "force-dynamic";
 
 const Page = async ({
     params,
@@ -14,6 +17,7 @@ const Page = async ({
     params: { userId: string; userSlug: string };
     searchParams: { page?: string; voteStatus?: "upvoted" | "downvoted" };
 }) => {
+    noStore();
     searchParams.page ||= "1";
 
     const query = [

@@ -8,12 +8,16 @@ import QuestionCard from "@/components/QuestionCard";
 import { UserPrefs } from "@/store/Auth";
 import Pagination from "@/components/Pagination";
 import Search from "./Search";
+import { unstable_noStore as noStore } from "next/cache";
+
+export const dynamic = "force-dynamic";
 
 const Page = async ({
     searchParams,
 }: {
     searchParams: { page?: string; tag?: string; search?: string };
 }) => {
+    noStore();
     searchParams.page ||= "1";
 
     const queries = [

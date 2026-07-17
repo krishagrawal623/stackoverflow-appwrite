@@ -1,8 +1,12 @@
 import HeroSection from "@/app/components/HeroSection";
 import LatestQuestions from "@/app/components/LatestQuestions";
 import TopContributers from "@/app/components/TopContributers";
+import { unstable_noStore as noStore } from "next/cache";
+
+export const dynamic = "force-dynamic";
 
 export default function Home() {
+  noStore();
   return (
     <main className="min-h-screen pb-20">
       <HeroSection />

@@ -87,20 +87,20 @@ const QuestionForm = ({ question }: { question?: Models.Document }) => {
     };
 
     const create = async () => {
-        if (!formData.attachment) throw new Error("Please upload an image");
-
-        const storageResponse = await storage.createFile(
-            questionAttachmentBucket,
-            ID.unique(),
-            formData.attachment
-        );
+        const storageResponse = formData.attachment
+            ? await storage.createFile(
+                  questionAttachmentBucket,
+                  ID.unique(),
+                  formData.attachment
+              )
+            : null;
 
         const response = await databases.createDocument(db, questionCollection, ID.unique(), {
             title: formData.title,
             content: formData.content,
             authorId: formData.authorId,
             tags: Array.from(formData.tags),
-            attachmentId: storageResponse.$id,
+            attachmentId: storageResponse?.$id || undefined,
         });
 
         loadConfetti();
@@ -114,7 +114,9 @@ const QuestionForm = ({ question }: { question?: Models.Document }) => {
         const attachmentId = await (async () => {
             if (!formData.attachment) return question?.attachmentId as string;
 
-            await storage.deleteFile(questionAttachmentBucket, question.attachmentId);
+            if (question.attachmentId) {
+                await storage.deleteFile(questionAttachmentBucket, question.attachmentId);
+            }
 
             const file = await storage.createFile(
                 questionAttachmentBucket,
@@ -130,7 +132,7 @@ const QuestionForm = ({ question }: { question?: Models.Document }) => {
             content: formData.content,
             authorId: formData.authorId,
             tags: Array.from(formData.tags),
-            attachmentId: attachmentId,
+            attachmentId: attachmentId || undefined,
         });
 
         return response;
@@ -201,7 +203,7 @@ const QuestionForm = ({ question }: { question?: Models.Document }) => {
             </LabelInputContainer>
             <LabelInputContainer>
                 <Label htmlFor="image">
-                    Image
+                    Image (Optional)
                     <br />
                     <small>
                         Add image to your question to make it more clear and easier to understand.

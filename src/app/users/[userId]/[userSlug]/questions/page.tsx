@@ -5,6 +5,9 @@ import { databases, users } from "@/models/server/config";
 import { UserPrefs } from "@/store/Auth";
 import { Query } from "node-appwrite";
 import React from "react";
+import { unstable_noStore as noStore } from "next/cache";
+
+export const dynamic = "force-dynamic";
 
 const Page = async ({
     params,
@@ -13,6 +16,7 @@ const Page = async ({
     params: { userId: string; userSlug: string };
     searchParams: { page?: string };
 }) => {
+    noStore();
     searchParams.page ||= "1";
 
     const queries = [
