@@ -89,10 +89,10 @@ const QuestionForm = ({ question }: { question?: Models.Document }) => {
     const create = async () => {
         const storageResponse = formData.attachment
             ? await storage.createFile(
-                  questionAttachmentBucket,
-                  ID.unique(),
-                  formData.attachment
-              )
+                questionAttachmentBucket,
+                ID.unique(),
+                formData.attachment
+            )
             : null;
 
         const response = await databases.createDocument(db, questionCollection, ID.unique(), {
@@ -172,7 +172,7 @@ const QuestionForm = ({ question }: { question?: Models.Document }) => {
             )}
             <LabelInputContainer>
                 <Label htmlFor="title">
-                    Title Address
+                    Question Title
                     <br />
                     <small>
                         Be specific and imagine you&apos;re asking a question to another person.

@@ -12,16 +12,18 @@ export default async function HeroSection() {
         Query.limit(15),
     ]);
 
+    const products = questions.documents
+        .filter(q => q.attachmentId)
+        .map(q => ({
+            title: q.title,
+            link: `/questions/${q.$id}/${slugify(q.title)}`,
+            thumbnail: `/api/image?fileId=${q.attachmentId}`,
+        }));
+
     return (
         <HeroParallax
             header={<HeroSectionHeader />}
-            products={questions.documents.map(q => ({
-                title: q.title,
-                link: `/questions/${q.$id}/${slugify(q.title)}`,
-                thumbnail: q.attachmentId
-                    ? `/api/image?fileId=${q.attachmentId}`
-                    : "/placeholder.png",
-            }))}
+            products={products}
         />
     );
 }
