@@ -6,13 +6,10 @@ IntelliQ is a full-stack Question & Answer platform that enables developers to a
 
 > **Note**
 >
-> This project was developed as part of my learning journey in full-stack web development using Next.js, TypeScript, and Appwrite. It is intended for educational purposes and showcases modern web development practices.
-
+> This project was developed as part of my learning journey in full-stack web development using Next.js, TypeScript, and Appwrite. 
 ---
 
 ## 📸 Preview
-
-> Add screenshots here
 
 | Home | Login |
 |------|-------|
@@ -269,10 +266,10 @@ Distributed under the MIT License.
 
 # 👨‍💻 Author
 
-**Lavya Agrawal**
+**Krish Agrawal**
 
-- GitHub: https://github.com/yourusername
-- LinkedIn: https://linkedin.com/in/yourprofile
+- GitHub: https://github.com/krishagrawal623/stackoverflow-appwrite
+- LinkedIn: https://www.linkedin.com/in/krishagrawal75
 
 ---
 
